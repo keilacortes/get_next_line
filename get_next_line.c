@@ -6,7 +6,7 @@
 /*   By: kqueiroz <kqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 14:11:20 by kqueiroz          #+#    #+#             */
-/*   Updated: 2025/10/07 14:31:34 by kqueiroz         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:31:47 by kqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*read_and_append(int fd, char *line_read)
 	int		bytes_read;
 	char	*tmp;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
 	bytes_read = 1;
@@ -47,7 +47,12 @@ static char	*read_and_append(int fd, char *line_read)
 		free(line_read);
 		line_read = tmp;
 	}
-	free (buffer);
+	free(buffer);
+	if (bytes_read < 0)
+	{
+		free(line_read);
+		return (NULL);
+	}
 	return (line_read);
 }
 
@@ -72,6 +77,15 @@ static char	*extract_line_and_save_rest(char *line_read, char **save_rest)
 	return (next_line);
 }
 
+static void	clean_save_rest(char **save_rest)
+{
+	if (*save_rest && (*save_rest)[0] == '\0')
+	{
+		free(*save_rest);
+		*save_rest = NULL;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*save_rest;
@@ -80,19 +94,20 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read(fd, NULL, 0) < 0)
-	{
-		return (NULL);
-	}
-	save_rest = NULL;
 	line_read = init_line(&save_rest);
 	line_read = read_and_append(fd, line_read);
 	if (!line_read || line_read[0] == '\0')
 	{
-		free (line_read);
+		free(line_read);
+		if (save_rest)
+		{
+			free(save_rest);
+			save_rest = NULL;
+		}
 		return (NULL);
 	}
 	next_line = extract_line_and_save_rest(line_read, &save_rest);
-	free (line_read);
+	free(line_read);
+	clean_save_rest(&save_rest);
 	return (next_line);
 }

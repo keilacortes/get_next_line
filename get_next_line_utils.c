@@ -6,7 +6,7 @@
 /*   By: kqueiroz <kqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 14:11:15 by kqueiroz          #+#    #+#             */
-/*   Updated: 2025/10/07 14:44:33 by kqueiroz         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:31:28 by kqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!sub_str)
 		return (NULL);
 	i = 0;
-	while (i++ < len && s[start + i])
+	while (i < len && s[start + i])
+	{
 		sub_str[i] = s[start + i];
+		i++;
+	}
 	sub_str[i] = '\0';
 	return (sub_str);
 }
