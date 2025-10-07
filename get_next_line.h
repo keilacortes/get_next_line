@@ -6,7 +6,7 @@
 /*   By: kqueiroz <kqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 14:11:44 by kqueiroz          #+#    #+#             */
-/*   Updated: 2025/09/25 16:23:17 by kqueiroz         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:33:33 by kqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-# include <fcntl.h>
+# include <unistd.h>
 # include <stdlib.h>
 
+char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *str);

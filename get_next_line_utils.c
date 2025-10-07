@@ -6,7 +6,7 @@
 /*   By: kqueiroz <kqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 14:11:15 by kqueiroz          #+#    #+#             */
-/*   Updated: 2025/09/25 16:24:41 by kqueiroz         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:44:33 by kqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ char	*ft_strdup(const char *s)
 	int		len;
 	char	*dest;
 
-	len = 0;
-	while (s[len] != '\0')
-		len++;
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
 	dest = malloc((len + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
@@ -55,6 +55,8 @@ size_t	ft_strlen(const char *str)
 	size_t	len;
 
 	len = 0;
+	if (!str)
+		return (0);
 	while (str[len] != '\0')
 		len++;
 	return (len);
@@ -79,7 +81,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	while (i++ < len && s[start + i])
 		sub_str[i] = s[start + i];
-		i++;
 	sub_str[i] = '\0';
 	return (sub_str);
 }
